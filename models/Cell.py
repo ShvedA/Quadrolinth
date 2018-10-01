@@ -1,5 +1,5 @@
-from Models.Location import Location
-from Models.Wall import Wall
+from models.Location import Location
+from models.Wall import Wall
 
 
 class Cell:

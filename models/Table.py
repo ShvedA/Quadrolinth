@@ -1,4 +1,4 @@
-from Models.Cell import Cell
+from models.Cell import Cell
 
 
 class Table:

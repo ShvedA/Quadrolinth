@@ -1,4 +1,4 @@
-from Models.Location import Location
+from models.Location import Location
 
 
 class Player:
