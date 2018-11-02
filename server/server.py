@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Server for multithreaded (asynchronous) chat application."""
-from socket import AF_INET, socket, SOCK_STREAM
+#from socket import AF_INET, socket, SOCK_STREAM
+import socket
 from threading import Thread
 
 
@@ -16,14 +17,12 @@ def accept_incoming_connections():
 
 def handle_client(client):  # Takes client socket as argument.
     """Handles a single client connection."""
-
     name = client.recv(BUFSIZ).decode("utf8")
     welcome = 'Welcome %s! If you ever want to quit, type {quit} to exit.' % name
     client.send(bytes(welcome, "utf8"))
     msg = "%s has joined the chat!" % name
     broadcast(bytes(msg, "utf8"))
     clients[client] = name
-
     while True:
         msg = client.recv(BUFSIZ)
         if msg != bytes("{quit}", "utf8"):
@@ -38,7 +37,6 @@ def handle_client(client):  # Takes client socket as argument.
 
 def broadcast(msg, prefix=""):  # prefix is for name identification.
     """Broadcasts a message to all the clients."""
-
     for sock in clients:
         sock.send(bytes(prefix, "utf8") + msg)
 
@@ -47,11 +45,21 @@ clients = {}
 addresses = {}
 
 HOST = ''
-PORT = 33000
+PORT = input('Enter port: ')
+if not PORT:
+    PORT = 7654
+    print("Default port is 7654")
+else:
+    PORT = int(PORT)
+
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
-SERVER = socket(AF_INET, SOCK_STREAM)
+host = socket.gethostname()
+ip = socket.gethostbyname(host)
+print(host, "(", ip, ")")
+print("port:", PORT)
+SERVER = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER.bind(ADDR)
 
 if __name__ == "__main__":
