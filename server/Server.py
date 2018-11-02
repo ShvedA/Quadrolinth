@@ -2,7 +2,11 @@
 """Server for multithreaded (asynchronous) chat application."""
 #from socket import AF_INET, socket, SOCK_STREAM
 import socket
+from server import Game_handler
 from threading import Thread
+
+game = Game_handler
+
 
 
 def accept_incoming_connections():
